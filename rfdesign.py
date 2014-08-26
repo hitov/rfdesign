@@ -8,6 +8,7 @@
 #Stability
 
 from math import *
+from numpy import conjugate
 
 def pol2rec(magnitude, angle):
     return magnitude * cos(angle) + 1j * magnitude * sin(angle)
@@ -27,7 +28,12 @@ def calc_mag(s11, s12, s21, s22):
     MAG = 10*log10(abs(s21)/abs(s12)) + 10*log10(K + (-B1/abs(B1)) * sqrt(K**2 - 1))
     return MAG
 
-#def load_reflection(s11, s12, s21, s22):
+def load_reflection(s11, s12, s21, s22):
+    Ds = s11*s22 - s12*s21
+    C2 = s22 - Ds * conjugate(s11)
+    B2 = 1 + abs(s22)**2 - abs(s11)**2
+    GamaL = ( B2 - (B2/abs(B2)) * sqrt(B2**2 - 4*(abs(C2)**2)) ) / (2 * abs(C2))
+     
     
 
 S11 = pol2rec(0.4, deg2rad(162))
